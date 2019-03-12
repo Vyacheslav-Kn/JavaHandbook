@@ -26,5 +26,4 @@
         <servlet-name>list</servlet-name>
         <url-pattern>/list</url-pattern>
     </servlet-mapping>
-
 </web-app>
