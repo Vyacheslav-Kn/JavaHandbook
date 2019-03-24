@@ -5,6 +5,8 @@ public class User {
     private String Name;
     private String Password;
 
+    public User(){}
+
     public User(String Name, String Password){
         this.Name = Name;
         this.Password = Password;

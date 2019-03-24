@@ -7,7 +7,7 @@ import java.io.IOException;
 public class Header extends TagSupport {
     @Override
     public int doStartTag() {
-        String header = "<header><h1>Welcome to Java handbook!</h1></header>";
+        String header = "<header><h2>Welcome to Java handbook!</h2><hr></hr></header>";
         JspWriter out = pageContext.getOut();
         try {
             out.write(header);

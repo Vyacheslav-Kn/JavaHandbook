@@ -1,33 +1,45 @@
 package app.repositories;
 
+import org.apache.log4j.Logger;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class UnitOfWork implements AutoCloseable{
-    private ArticleRepository Articles;
-    private UserRepository Users;
+    private ArticleRepository articleRepository;
+    private UserRepository userRepository;
     private Connection databaseConnection;
+    private static final Logger logger = Logger.getLogger(UnitOfWork.class);
 
-    public UnitOfWork(){
-        Properties property = new Properties();
-        String connectionSting = property.getProperty("database.connectionString");
-        String user = property.getProperty("database.connectionString");
-        String password = property.getProperty("database.password");
-        initializeConnection(connectionSting, user, password);
-        Users = new UserRepository(databaseConnection);
-        Articles = new ArticleRepository(databaseConnection);
+    public UnitOfWork() {
+        databaseConnection = initializeConnection();
+        logger.info("Connection established");
+        userRepository = new UserRepository(databaseConnection);
+        articleRepository = new ArticleRepository(databaseConnection);
     }
 
-    private void initializeConnection(String connectionUrl, String user, String password) {
-        try{
+    private Connection initializeConnection() {
+        try {
+            Properties property = new Properties();
+            InputStream inputStream = getClass().getClassLoader()
+                    .getResourceAsStream("config.properties");
+            property.load(inputStream);
+
+            String connectionString = property.getProperty("database.connectionString");
+            String user = property.getProperty("database.user");
+            String password = property.getProperty("database.password");
+
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            databaseConnection = DriverManager.getConnection(connectionUrl, user, password);
+            return DriverManager.getConnection(connectionString, user, password);
         }
-        catch(Exception e){
+        catch (Exception e) {
+            logger.info("Connection failed");
             e.printStackTrace();
         }
+
+        return null;
     }
 
     @Override
@@ -35,19 +47,11 @@ public class UnitOfWork implements AutoCloseable{
         databaseConnection.close();
     }
 
-    public void setArticles(ArticleRepository articles) {
-        Articles = articles;
+    public UserRepository getUserRepository() {
+        return userRepository;
     }
 
-    public UserRepository getUsers() {
-        return Users;
-    }
-
-    public void setUsers(UserRepository users) {
-        Users = users;
-    }
-
-    public ArticleRepository getArticles() {
-        return Articles;
+    public ArticleRepository getArticleRepository() {
+        return articleRepository;
     }
 }

@@ -9,6 +9,8 @@ public class Article {
     private Date PublicationDate;
     private int UserId;
 
+    public Article() {}
+
     public Article(String title, String content, Date publicationDate, int userId){
         this.Title = title;
         this.Content = content;
