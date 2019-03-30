@@ -11,7 +11,8 @@ public class Article {
 
     public Article() {}
 
-    public Article(String title, String content, Date publicationDate, int userId){
+    public Article(int id, String title, String content, Date publicationDate, int userId){
+        this.Id = id;
         this.Title = title;
         this.Content = content;
         this.PublicationDate = publicationDate;

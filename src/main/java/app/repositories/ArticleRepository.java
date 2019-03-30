@@ -50,6 +50,7 @@ public class ArticleRepository {
             article.setTitle(resultSet.getString("Title"));
             article.setContent(resultSet.getString("Content"));
             article.setPublicationDate(resultSet.getDate("PublicationDate"));
+            article.setUserId(resultSet.getInt("UserId"));
         }
 
         return article;
@@ -60,19 +61,19 @@ public class ArticleRepository {
 
         PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
         preparedStatement.setString(1, article.getTitle());
-        preparedStatement.setString(1, article.getContent());
-        preparedStatement.setInt(1, article.getUserId());
+        preparedStatement.setString(2, article.getContent());
+        preparedStatement.setInt(3, article.getUserId());
 
         return preparedStatement.executeUpdate();
     }
 
     public int update(Article article) throws SQLException {
-        String query = "UPDATE Articles SET Title = ?, Content = ?, UserId WHERE Id = ?)";
+        String query = "UPDATE Articles SET Title = ?, Content = ? WHERE Id = ?";
 
         PreparedStatement preparedStatement = databaseConnection.prepareStatement(query);
         preparedStatement.setString(1, article.getTitle());
-        preparedStatement.setString(1, article.getContent());
-        preparedStatement.setInt(1, article.getUserId());
+        preparedStatement.setString(2, article.getContent());
+        preparedStatement.setInt(3, article.getId());
 
         return preparedStatement.executeUpdate();
     }

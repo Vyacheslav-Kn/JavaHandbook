@@ -15,7 +15,7 @@ public class LoginFilter implements Filter {
         HttpSession session = servletRequest.getSession();
 
         if (session.getAttribute("user") == null) {
-            servletResponse.sendRedirect("register");
+            servletResponse.sendRedirect("/user/login");
         }
         else {
             chain.doFilter(request,response);

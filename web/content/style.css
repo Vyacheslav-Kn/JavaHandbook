@@ -1,9 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, ul, li{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 html, body {
     height: 100%;
 }
 body {
     display: flex;
     flex-direction: column;
+}
+header{
+    text-align: center;
+}
+footer{
     text-align: center;
 }
 .content {
@@ -11,4 +24,19 @@ body {
 }
 .footer {
     flex-shrink: 0;
+}
+.entrancePanel {
+    text-align: right;
+}
+.entrance{
+    float: right;
+    margin-right: 5%;
+}
+.article {
+    border: 1px solid green;
+    margin-bottom: 25px;
+}
+.article form{
+    float:right;
+    margin-right: 8%;
 }
