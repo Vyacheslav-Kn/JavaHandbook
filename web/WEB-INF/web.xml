@@ -16,6 +16,20 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/article/add</url-pattern>
         <url-pattern>/article/edit</url-pattern>
+        <url-pattern>/article/delete</url-pattern>
+        <url-pattern>/user/office</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>
+            app.filters.EncodingFilter
+        </filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <!-- home servlet -->
@@ -26,7 +40,7 @@
 
     <servlet-mapping>
         <servlet-name>home</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <url-pattern>/home/*</url-pattern>
     </servlet-mapping>
 
     <!-- register servlet -->
@@ -62,6 +76,17 @@
         <url-pattern>/user/logout</url-pattern>
     </servlet-mapping>
 
+    <!-- private-office servlet -->
+    <servlet>
+        <servlet-name>private-office</servlet-name>
+        <servlet-class>app.servlets.user.PrivateOfficeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>private-office</servlet-name>
+        <url-pattern>/user/office</url-pattern>
+    </servlet-mapping>
+
     <!-- add servlet -->
     <servlet>
         <servlet-name>add</servlet-name>
@@ -84,7 +109,18 @@
         <url-pattern>/article/edit</url-pattern>
     </servlet-mapping>
 
-    <!-- edit servlet -->
+    <!-- delete servlet -->
+    <servlet>
+        <servlet-name>delete</servlet-name>
+        <servlet-class>app.servlets.article.DeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>delete</servlet-name>
+        <url-pattern>/article/delete</url-pattern>
+    </servlet-mapping>
+
+    <!-- show servlet -->
     <servlet>
         <servlet-name>show</servlet-name>
         <servlet-class>app.servlets.article.ShowServlet</servlet-class>

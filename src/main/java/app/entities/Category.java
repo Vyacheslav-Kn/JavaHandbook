@@ -7,6 +7,8 @@ public class Category {
     private String Title;
     private Date UpdateDate;
 
+    public Category(){}
+
     public Category(int id, String title, Date updatedate){
         this.Id = id;
         this.Title = title;

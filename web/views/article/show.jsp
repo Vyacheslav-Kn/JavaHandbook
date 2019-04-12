@@ -10,8 +10,14 @@
     <p>Заголовок статьи:</p>
     <div>${article.getTitle()}</div>
 
+    <p>Категория статьи:</p>
+    <div>${article.getCategory().getTitle()}</div>
+
     <p>Дата модификации:</p>
     <div>${article.getPublicationDate()}</div>
+
+    <p>Краткое описание статьи:</p>
+    <div>${article.getDescription()}</div>
 
     <p>Текст статьи:</p>
     <div>${article.getContent()}</div>

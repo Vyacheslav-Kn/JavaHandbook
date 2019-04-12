@@ -24,17 +24,14 @@ public class EditServlet extends HttpServlet {
         int userId = (int) session.getAttribute("user");
 
         try (UnitOfWork db = new UnitOfWork()) {
-            String title = request.getParameter("Title");
             String content = request.getParameter("Content");
             int id = Integer.parseInt(request.getParameter("Id"));
 
-            Article article = new Article(id, title, content, new Date(), userId);
+            Article article = new Article(id, "", content, new Date(), userId, 0,"");
             db.getArticleRepository().update(article);
 
-//            set no-edit-flag
-//
-//            getServletContext().getRequestDispatcher("/views/article/add-edit.jsp").forward(request, response);
-//            return;
+            response.sendRedirect("/user/office");
+            return;
         } catch (SQLException e) {
             logger.error(e);
         }
@@ -44,12 +41,14 @@ public class EditServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int articleId = Integer.parseInt(request.getParameter("ArticleId"));
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("user");
 
         try (UnitOfWork db = new UnitOfWork()) {
             Article article = db.getArticleRepository().getById(articleId);
-            if (article != null) {
+            if (article != null && userId == article.getUserId()) {
                 request.setAttribute("article", article);
-                getServletContext().getRequestDispatcher("/views/article/add-edit.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/views/article/edit.jsp").forward(request, response);
                 return;
             }
         } catch (SQLException e) {

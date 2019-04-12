@@ -16,8 +16,22 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int limit = 5;
+        String page = request.getParameter("page");
+        int pageNumber = page != null ? Integer.parseInt(page) : 1;
+        int offset = (pageNumber - 1) * limit;
+
         try(UnitOfWork db = new UnitOfWork()) {
-            request.setAttribute("articles", db.getArticleRepository().getAll());
+            request.setAttribute("articles", db.getArticleRepository().getChunk(offset, limit));
+            request.setAttribute("currentPage", pageNumber);
+
+            int numberOfRows = db.getArticleRepository().getNumberOfRows();
+            int numberOfPages = numberOfRows / limit;
+            if (numberOfRows % limit > 0) {
+                numberOfPages++;
+            }
+            request.setAttribute("numberOfPages", numberOfPages);
+
             getServletContext().getRequestDispatcher("/views/index.jsp").forward(request, response);
         } catch (SQLException e) {
             logger.error(e);

@@ -25,15 +25,15 @@ public class AddServlet extends HttpServlet {
 
         String title = request.getParameter("Title");
         String content = request.getParameter("Content");
-        int id = Integer.parseInt(request.getParameter("Id"));
-        Article article = new Article(id, title, content, new Date(), userId);
+        String description = request.getParameter("Description");
+        int categoryId = Integer.parseInt(request.getParameter("CategoryId"));
+        Article article = new Article(0, title, content, new Date(), userId, categoryId, description);
 
         try (UnitOfWork db = new UnitOfWork()) {
             db.getArticleRepository().add(article);
 
-//            set no-edit-flag
-//            getServletContext().getRequestDispatcher("/views/article/add-edit.jsp").forward(request, response);
-//            return;
+            response.sendRedirect("/user/office");
+            return;
         } catch (SQLException e) {
             logger.error(e);
         }
@@ -42,7 +42,6 @@ public class AddServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("article", new Article());
-        getServletContext().getRequestDispatcher("/views/article/add-edit.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/views/article/add.jsp").forward(request, response);
     }
 }

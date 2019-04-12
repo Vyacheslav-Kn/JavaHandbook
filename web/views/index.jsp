@@ -22,27 +22,31 @@
                 <form action="user/logout" method="get">
                     <button>Выйти</button>
                 </form>
+                <form action="user/office" method="get">
+                    <button>Личный кабинет</button>
+                </form>
             </c:if>
         </div>
 </div>
 <div>
     <hr></hr>
 </div>
-<div class="content">
+<div class="content" id="articles">
     <c:forEach var="article" items="${articles}">
         <div class="article">
-            <p>
-                <c:if test="${sessionScope.get('user') != null}">
-                    <form action="article/edit" method="get">
-                        <input type="text" name="ArticleId" value="${article.getId()}" style="display: none">
-                        <button>Редактировать</button>
-                    </form>
-                </c:if>
                 <a href="article/show?id=${article.getId()}"><c:out value="${article.getTitle()}"/></a>
                 <c:out value="${article.getPublicationDate()}" />
-            </p>
+                <c:out value="${article.getCategory().getTitle()}" />
+                <c:out value="${article.getDescription()}" />
         </div>
     </c:forEach>
+    <c:if test="${currentPage != 1}">
+        <a href="/home?page=${currentPage-1}">Назад</a>
+    </c:if>
+    <span>Текущая страница: <c:out value="${currentPage}" /></span>
+    <c:if test="${currentPage < numberOfPages}">
+        <a href="/home?page=${currentPage+1}">Вперед</a>
+    </c:if>
 </div>
 <jsp:include page="footer.jsp" />
 </body>
